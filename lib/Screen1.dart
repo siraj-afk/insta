@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 class Screen1 extends StatefulWidget {
   const Screen1({super.key});
@@ -279,14 +280,14 @@ class _Screen1State extends State<Screen1> {
               ),
             ),
             TabBar(
-              indicatorColor: Colors.red,
-              indicatorSize:TabBarIndicatorSize.tab ,
 
-                indicator: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                ),
+                indicatorColor: Colors.white,
+                indicatorSize: TabBarIndicatorSize.tab,
+                dividerHeight: 1.h,
+
                 labelColor: Colors.white,
                 dividerColor: Colors.transparent,
+
 
                 tabs: [
                   Tab(
@@ -302,7 +303,19 @@ class _Screen1State extends State<Screen1> {
                 ]),
             Expanded(
               child: TabBarView(children: [
-                Container(color: Colors.white,),
+
+                GridView.count(
+
+                    crossAxisCount: 3,
+                                  shrinkWrap: true,
+                                  children: List.generate(20, (index) {
+                return Container(
+                  width: 142.19,
+                  height: 142.19,
+                 child: Image.asset('assets/img.png',fit: BoxFit.fill,),
+                );
+                                  },
+                )),
                 Container(color: Colors.red,)
               ]),
             )
