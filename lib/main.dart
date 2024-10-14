@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:insta/bloc/highlights_bloc.dart';
 import 'package:insta/repositery/model/instamodel.dart';
 
 import 'bloc/insta_bloc.dart';
@@ -23,8 +24,11 @@ class MyApp extends StatelessWidget {
           splitScreenMode: true,
           // Use builder only if you need to use library outside ScreenUtilInit context
           builder: (_, child) {
-            return BlocProvider(
-              create: (context) => InstaBloc(),
+            return MultiBlocProvider(
+              providers: [
+                BlocProvider(create: (context) => InstaBloc(),),
+                BlocProvider(create: (context) => HighlightsBloc(),)
+              ],
               child: MaterialApp(
                 debugShowCheckedModeBanner: false,
                   title: 'Flutter Demo',
