@@ -481,13 +481,14 @@ class _Screen1State extends State<Screen1> {
                                 padding: EdgeInsets.zero,
                                 crossAxisCount: 3,
                                 shrinkWrap: true,
+                                childAspectRatio: 310/400,
                                 children: List.generate(
                                  posts.data!.items!.length,
                                   (index) {
                                     return Container(
                                       width: 140.19.w,
-                                      height: 190.19.h,
-                                      child: Image.network(fit: BoxFit.fill,
+                                      height: 140.19.h,
+                                      child: Image.network(fit: BoxFit.cover,
                                         posts.data!.items![index].thumbnailUrl.toString(),
                                       ),
                                     );
