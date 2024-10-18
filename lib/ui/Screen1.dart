@@ -5,8 +5,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:insta/bloc/highlights_bloc.dart';
 import 'package:insta/bloc/insta_bloc.dart';
+import 'package:insta/bloc/post_bloc.dart';
 import 'package:insta/repositery/model/highlights.dart';
 import 'package:insta/repositery/model/instamodel.dart';
+import 'package:insta/repositery/model/postmodel.dart';
 
 class Screen1 extends StatefulWidget {
   const Screen1({super.key});
@@ -18,6 +20,8 @@ class Screen1 extends StatefulWidget {
 class _Screen1State extends State<Screen1> {
   late InstaModel insta;
   late Highlights highlight;
+  late Post posts;
+
   String k_m_b_generator(num) {
     if (num > 999 && num < 99999) {
       return "${(num / 1000).toStringAsFixed(1)} K";
@@ -36,6 +40,7 @@ class _Screen1State extends State<Screen1> {
   void initState() {
     BlocProvider.of<InstaBloc>(context).add(fetchInstaEvent());
     BlocProvider.of<HighlightsBloc>(context).add(fetchHighlightsEvent());
+    BlocProvider.of<PostBloc>(context).add(fetchPostEvent());
     super.initState();
   }
 
@@ -59,9 +64,7 @@ class _Screen1State extends State<Screen1> {
                   });
             }
             if (state is Instablocloaded) {
-              final String followers= k_m_b_generator(
-                double.parse(insta.data!.followerCount.toString())
-              );
+
               insta = BlocProvider.of<InstaBloc>(context).instamodel;
               return Column(
                 children: [
@@ -147,7 +150,9 @@ class _Screen1State extends State<Screen1> {
                               Column(
                                 children: [
                                   Text(
-                                    followers,
+                                k_m_b_generator(
+                                    double.parse(insta.data!.followerCount.toString())
+                                ),
                                     style: TextStyle(
                                       color: Colors.white,
                                       fontSize: 20.64,
@@ -156,7 +161,7 @@ class _Screen1State extends State<Screen1> {
                                       height: 0,
                                     ),
                                   ),
-                                  Text('Followres',
+                                  Text('Followers',
                                       style: TextStyle(
                                         color: Colors.white,
                                         fontSize: 17.20,
@@ -453,22 +458,47 @@ class _Screen1State extends State<Screen1> {
                       ]),
                   Expanded(
                     child: TabBarView(children: [
-                      GridView.count(
-                          crossAxisCount: 3,
-                          shrinkWrap: true,
-                          children: List.generate(
-                            20,
-                            (index) {
-                              return Container(
-                                width: 142.19,
-                                height: 140.19,
-                                child: Image.asset(
-                                  'assets/img.png',
-                                  fit: BoxFit.fill,
-                                ),
-                              );
-                            },
-                          )),
+                      BlocBuilder<PostBloc, PostState>(
+                        builder: (context, state) {
+                          if (state is Postblocloading) {
+                            return Center(child: CircularProgressIndicator());
+                          }
+                          if (state is Postblocerror) {
+                            return RefreshIndicator(
+                                child: Center(
+                                    child: Text(
+                                  'error',
+                                  style: TextStyle(color: Colors.white),
+                                )),
+                                onRefresh: () async {
+                                  return BlocProvider.of<PostBloc>(context)
+                                      .add(fetchPostEvent());
+                                });
+                          }
+                          if (state is Postblocloaded) {
+                            posts = BlocProvider.of<PostBloc>(context).posts;
+                            return GridView.count(
+                                padding: EdgeInsets.zero,
+                                crossAxisCount: 3,
+                                shrinkWrap: true,
+                                children: List.generate(
+                                 posts.data!.items!.length,
+                                  (index) {
+                                    return Container(
+                                      width: 140.19.w,
+                                      height: 190.19.h,
+                                      child: Image.network(fit: BoxFit.fill,
+                                        posts.data!.items![index].thumbnailUrl.toString(),
+                                      ),
+                                    );
+
+                                  },
+                                ));
+                          } else {
+                            return SizedBox();
+                          }
+                        },
+                      ),
                       Container(
                         color: Colors.red,
                       )

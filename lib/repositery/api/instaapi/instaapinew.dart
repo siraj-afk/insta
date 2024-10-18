@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:http/http.dart';
 import 'package:insta/repositery/model/highlights.dart';
 import 'package:insta/repositery/model/instamodel.dart';
+import 'package:insta/repositery/model/postmodel.dart';
 
 import '../../model/instamodel.dart';
 
@@ -33,5 +34,15 @@ class InstaApi {
     Response response = await apiClient.invokeAPI(trendingpath, 'GET', body);
 
     return Highlights.fromJson(jsonDecode(response.body));
+  }
+
+  Future<Post> getPostmodel() async {
+    String trendingpath = 'https://instagram-scraper-api2.p.rapidapi.com/v1.2/posts?username_or_id_or_url=mrbeast';
+    var body = {
+
+    };
+    Response response = await apiClient.invokeAPI(trendingpath, 'GET', body);
+
+    return Post.fromJson(jsonDecode(response.body));
   }
 }

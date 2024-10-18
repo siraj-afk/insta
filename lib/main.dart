@@ -3,8 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:insta/bloc/highlights_bloc.dart';
 import 'package:insta/repositery/model/instamodel.dart';
+import 'package:insta/repositery/model/postmodel.dart';
 
 import 'bloc/insta_bloc.dart';
+import 'bloc/post_bloc.dart';
 import 'ui/Screen1.dart';
 
 void main() {
@@ -27,7 +29,8 @@ class MyApp extends StatelessWidget {
             return MultiBlocProvider(
               providers: [
                 BlocProvider(create: (context) => InstaBloc(),),
-                BlocProvider(create: (context) => HighlightsBloc(),)
+                BlocProvider(create: (context) => HighlightsBloc(),),
+                BlocProvider(create: (context) => PostBloc(),)
               ],
               child: MaterialApp(
                 debugShowCheckedModeBanner: false,
