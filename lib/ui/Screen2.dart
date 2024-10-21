@@ -131,13 +131,13 @@ class _Screen2State extends State<Screen2> {
                             followers = BlocProvider.of<FollowersBloc>(context)
                                 .followers;
                             return ListView.separated(
-                              itemCount: 5,
+                              itemCount: followers.data!.items!.length,
                               itemBuilder: (BuildContext context, int index) {
                                 return Row(
                                   children: [
                                     ClipOval(
-                                        child: Image.asset(
-                                      'assets/img.png',
+                                        child: Image.network(
+                                      followers.data!.items![index].profilePicUrl.toString(),
                                       width: 60.w,
                                       height: 60.h,
                                       fit: BoxFit.cover,
@@ -148,7 +148,7 @@ class _Screen2State extends State<Screen2> {
                                     Column(
                                       children: [
                                         Text(
-                                          'beast',
+                                          followers.data!.items![index].fullName.toString(),
                                           style: TextStyle(
                                             color: Colors.white,
                                             fontSize: 20.64,
@@ -157,7 +157,7 @@ class _Screen2State extends State<Screen2> {
                                             height: 0,
                                           ),
                                         ),
-                                        Text('slayer',
+                                        Text(followers.data!.items![index].username.toString(),
                                             style: TextStyle(
                                               color: Colors.white,
                                               fontSize: 17.20,
