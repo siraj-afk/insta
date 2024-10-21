@@ -118,7 +118,58 @@ class _Screen2State extends State<Screen2> {
                       }, separatorBuilder: (BuildContext context, int index) { return SizedBox(height: 10.h,); },
                       ),
 
-                    )
+                    ),
+                     ListView.separated(
+                      itemCount: 5,
+                      itemBuilder: (BuildContext context, int index) {
+                        return Row(
+                          children: [
+                            ClipOval(child: Image.asset('assets/img_1.png',width:60.w,height:60.h,fit: BoxFit.cover,)),
+
+                            SizedBox(width: 30.w,),
+                            Column(
+                              children: [
+                                Text('don',style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 20.64,
+                                  fontFamily: 'Inter',
+                                  fontWeight: FontWeight.w500,
+                                  height: 0,
+                                ),),
+                                Text('impo',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 17.20,
+                                      fontFamily: 'Inter',
+                                      fontWeight: FontWeight.w400,
+                                      height: 0,
+                                    ))
+                              ],
+                            ),
+                            SizedBox(width: 120.w,),
+                            Container(
+                              width: 112.37,
+                              height: 33.25,
+                              decoration: ShapeDecoration(
+                                color: Color(0xFF4192EF),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(5.73),
+                                ),
+                              ),
+                              child: Center(
+                                child: Text('Follow', style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 16.05,
+                                  fontFamily: 'Inter',
+                                  fontWeight: FontWeight.w500,
+                                  height: 0,
+                                ),),
+                              ),
+                            )
+                          ],
+                        );
+                      }, separatorBuilder: (BuildContext context, int index) { return SizedBox(height: 10.h,); },
+                    ),
                   ],
                 ),)
 
