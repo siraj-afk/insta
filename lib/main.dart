@@ -5,6 +5,7 @@ import 'package:insta/bloc/highlights_bloc.dart';
 import 'package:insta/repositery/model/instamodel.dart';
 import 'package:insta/repositery/model/postmodel.dart';
 
+import 'bloc/followers_bloc.dart';
 import 'bloc/insta_bloc.dart';
 import 'bloc/post_bloc.dart';
 import 'bloc/tag_bloc.dart';
@@ -33,6 +34,7 @@ class MyApp extends StatelessWidget {
                 BlocProvider(create: (context) => HighlightsBloc(),),
                 BlocProvider(create: (context) => PostBloc(),),
                 BlocProvider(create: (context) => TagBloc(),),
+                BlocProvider(create: (context) => FollowersBloc(),),
               ],
               child: MaterialApp(
                 debugShowCheckedModeBanner: false,

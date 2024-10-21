@@ -71,7 +71,8 @@ class _Screen2State extends State<Screen2> {
                       itemBuilder: (BuildContext context, int index) {
                         return Row(
                           children: [
-                            Icon(Icons.ac_unit,size: 40,color: Colors.white,),
+                          ClipOval(child: Image.asset('assets/img.png',width:60.w,height:60.h,fit: BoxFit.cover,)),
+
                             SizedBox(width: 30.w,),
                             Column(
                               children: [
@@ -92,7 +93,7 @@ class _Screen2State extends State<Screen2> {
                         ))
                               ],
                             ),
-                            SizedBox(width: 130.w,),
+                            SizedBox(width: 120.w,),
                             Container(
                               width: 112.37,
                               height: 33.25,
@@ -114,7 +115,9 @@ class _Screen2State extends State<Screen2> {
                             )
                           ],
                         );
-                      }, separatorBuilder: (BuildContext context, int index) { return SizedBox(height: 10.h,); },),
+                      }, separatorBuilder: (BuildContext context, int index) { return SizedBox(height: 10.h,); },
+                      ),
+
                     )
                   ],
                 ),)
