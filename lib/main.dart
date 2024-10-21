@@ -7,6 +7,7 @@ import 'package:insta/repositery/model/postmodel.dart';
 
 import 'bloc/insta_bloc.dart';
 import 'bloc/post_bloc.dart';
+import 'bloc/tag_bloc.dart';
 import 'ui/Screen1.dart';
 
 void main() {
@@ -30,7 +31,8 @@ class MyApp extends StatelessWidget {
               providers: [
                 BlocProvider(create: (context) => InstaBloc(),),
                 BlocProvider(create: (context) => HighlightsBloc(),),
-                BlocProvider(create: (context) => PostBloc(),)
+                BlocProvider(create: (context) => PostBloc(),),
+                BlocProvider(create: (context) => TagBloc(),),
               ],
               child: MaterialApp(
                 debugShowCheckedModeBanner: false,

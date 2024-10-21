@@ -6,9 +6,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:insta/bloc/highlights_bloc.dart';
 import 'package:insta/bloc/insta_bloc.dart';
 import 'package:insta/bloc/post_bloc.dart';
+import 'package:insta/bloc/tag_bloc.dart';
 import 'package:insta/repositery/model/highlights.dart';
 import 'package:insta/repositery/model/instamodel.dart';
 import 'package:insta/repositery/model/postmodel.dart';
+import 'package:insta/repositery/model/tagmodel.dart';
+
+import 'Screen2.dart';
 
 class Screen1 extends StatefulWidget {
   const Screen1({super.key});
@@ -21,6 +25,7 @@ class _Screen1State extends State<Screen1> {
   late InstaModel insta;
   late Highlights highlight;
   late Post posts;
+  late Tag tags;
 
   String k_m_b_generator(num) {
     if (num > 999 && num < 99999) {
@@ -41,6 +46,7 @@ class _Screen1State extends State<Screen1> {
     BlocProvider.of<InstaBloc>(context).add(fetchInstaEvent());
     BlocProvider.of<HighlightsBloc>(context).add(fetchHighlightsEvent());
     BlocProvider.of<PostBloc>(context).add(fetchPostEvent());
+    BlocProvider.of<TagBloc>(context).add(fetchTagEvent());
     super.initState();
   }
 
@@ -147,29 +153,33 @@ class _Screen1State extends State<Screen1> {
                                       ))
                                 ],
                               ),
-                              Column(
-                                children: [
-                                  Text(
-                                k_m_b_generator(
-                                    double.parse(insta.data!.followerCount.toString())
-                                ),
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 20.64,
-                                      fontFamily: 'Inter',
-                                      fontWeight: FontWeight.w500,
-                                      height: 0,
-                                    ),
+                              GestureDetector(onTap: (){
+                                Navigator.of(context).push(MaterialPageRoute(builder:(_)=>Screen2()));
+                              },
+                                child: Column(
+                                  children: [
+                                    Text(
+                                  k_m_b_generator(
+                                      double.parse(insta.data!.followerCount.toString())
                                   ),
-                                  Text('Followers',
                                       style: TextStyle(
                                         color: Colors.white,
-                                        fontSize: 17.20,
+                                        fontSize: 20.64,
                                         fontFamily: 'Inter',
-                                        fontWeight: FontWeight.w400,
+                                        fontWeight: FontWeight.w500,
                                         height: 0,
-                                      ))
-                                ],
+                                      ),
+                                    ),
+                                    Text('Followers',
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 17.20,
+                                          fontFamily: 'Inter',
+                                          fontWeight: FontWeight.w400,
+                                          height: 0,
+                                        ))
+                                  ],
+                                ),
                               ),
                               Padding(
                                 padding: EdgeInsets.only(right: 15.0.w),
@@ -500,9 +510,48 @@ class _Screen1State extends State<Screen1> {
                           }
                         },
                       ),
-                      Container(
-                        color: Colors.red,
-                      )
+                      BlocBuilder<TagBloc, TagState>(
+                        builder: (context, state) {
+                          if (state is Tagblocloading) {
+                            return Center(child: CircularProgressIndicator());
+                          }
+                          if (state is Tagblocerror) {
+                            return RefreshIndicator(
+                                child: Center(
+                                    child: Text(
+                                      'error',
+                                      style: TextStyle(color: Colors.white),
+                                    )),
+                                onRefresh: () async {
+                                  return BlocProvider.of<TagBloc>(context)
+                                      .add(fetchTagEvent());
+                                });
+                          }
+                          if (state is Tagblocloaded) {
+                           tags = BlocProvider.of<TagBloc>(context).tags;
+                            return GridView.count(
+                                padding: EdgeInsets.zero,
+                                crossAxisCount: 3,
+                                shrinkWrap: true,
+                                childAspectRatio: 310/400,
+                                children: List.generate(
+                                  tags.data!.items!.length,
+                                      (index) {
+                                    return Container(
+                                      width: 140.19.w,
+                                      height: 140.19.h,
+                                      child: Image.network(fit: BoxFit.cover,
+                                        tags.data!.items![index].thumbnailUrl.toString(),
+                                      ),
+                                    );
+
+                                  },
+                                ));
+                          } else {
+                            return SizedBox();
+                          }
+                        },
+                      ),
                     ]),
                   )
                 ],
