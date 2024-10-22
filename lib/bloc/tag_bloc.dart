@@ -11,11 +11,11 @@ class TagBloc extends Bloc<TagEvent, TagState> {
   late Tag tags;
   InstaApi instaApi=InstaApi();
   TagBloc() : super(TagInitial()) {
-    on<TagEvent>((event, emit) async {
+    on<fetchTagEvent>((event, emit) async {
       emit(Tagblocloading());
       try{
 
-       tags= await instaApi.getTagmodel();
+       tags= await instaApi.getTagmodel(event.id);
         emit(Tagblocloaded());
       } catch(e){
         print(e);

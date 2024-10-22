@@ -18,8 +18,8 @@ class InstaApi {
   ApiClient apiClient = ApiClient();
 
 
-  Future<InstaModel> getInsta() async {
-    String trendingpath = 'https://instagram-scraper-api2.p.rapidapi.com/v1/info?username_or_id_or_url=mrbeast';
+  Future<InstaModel> getInsta(String id) async {
+    String trendingpath = 'https://instagram-scraper-api2.p.rapidapi.com/v1/info?username_or_id_or_url=$id';
     var body = {
 
     };
@@ -29,8 +29,8 @@ class InstaApi {
   }
 
 
-  Future<Highlights> getHighlights() async {
-    String trendingpath = 'https://instagram-scraper-api2.p.rapidapi.com/v1/highlights?username_or_id_or_url=mrbeast';
+  Future<Highlights> getHighlights(String id) async {
+    String trendingpath = 'https://instagram-scraper-api2.p.rapidapi.com/v1/highlights?username_or_id_or_url=$id';
     var body = {
 
     };
@@ -39,8 +39,8 @@ class InstaApi {
     return Highlights.fromJson(jsonDecode(response.body));
   }
 
-  Future<Post> getPostmodel() async {
-    String trendingpath = 'https://instagram-scraper-api2.p.rapidapi.com/v1.2/posts?username_or_id_or_url=mrbeast';
+  Future<Post> getPostmodel(String id) async {
+    String trendingpath = 'https://instagram-scraper-api2.p.rapidapi.com/v1.2/posts?username_or_id_or_url=$id';
     var body = {
 
     };
@@ -49,8 +49,8 @@ class InstaApi {
     return Post.fromJson(jsonDecode(response.body));
   }
 
-  Future<Tag> getTagmodel() async {
-    String trendingpath = 'https://instagram-scraper-api2.p.rapidapi.com/v1/tagged?username_or_id_or_url=mrbeast';
+  Future<Tag> getTagmodel(String id) async {
+    String trendingpath = 'https://instagram-scraper-api2.p.rapidapi.com/v1/tagged?username_or_id_or_url=$id';
     var body = {
 
     };
@@ -59,8 +59,8 @@ class InstaApi {
    return Tag.fromJson(jsonDecode(response.body));
   }
 
-  Future<Followers> getFollowersmodel() async {
-    String trendingpath = 'https://instagram-scraper-api2.p.rapidapi.com/v1/followers?username_or_id_or_url=mrbeast';
+  Future<Followers> getFollowersmodel(String id) async {
+    String trendingpath = 'https://instagram-scraper-api2.p.rapidapi.com/v1/followers?username_or_id_or_url=$id';
     var body = {
 
     };
@@ -69,8 +69,8 @@ class InstaApi {
     return Followers.fromJson(jsonDecode(response.body));
   }
 
-  Future<Following> getFollowingmodel() async {
-    String trendingpath = 'https://instagram-scraper-api2.p.rapidapi.com/v1/following?username_or_id_or_url=mrbeast';
+  Future<Following> getFollowingmodel(String id) async {
+    String trendingpath = 'https://instagram-scraper-api2.p.rapidapi.com/v1/following?username_or_id_or_url=$id';
     var body = {
 
     };

@@ -43,16 +43,34 @@ class _Screen1State extends State<Screen1> {
 
   @override
   void initState() {
-    BlocProvider.of<InstaBloc>(context).add(fetchInstaEvent());
-    BlocProvider.of<HighlightsBloc>(context).add(fetchHighlightsEvent());
-    BlocProvider.of<PostBloc>(context).add(fetchPostEvent());
-    BlocProvider.of<TagBloc>(context).add(fetchTagEvent());
+
     super.initState();
   }
-
+TextEditingController search= TextEditingController();
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return Scaffold(appBar:
+    AppBar(backgroundColor: Colors.black,
+      title: TextField(
+        onSubmitted: (value) {
+          BlocProvider.of<InstaBloc>(context).add(fetchInstaEvent(id: search.text.toString()));
+          BlocProvider.of<HighlightsBloc>(context).add(fetchHighlightsEvent(id: search.text.toString()));
+          BlocProvider.of<PostBloc>(context).add(fetchPostEvent(id: search.text.toString()));
+          BlocProvider.of<TagBloc>(context).add(fetchTagEvent(id: search.text.toString()));
+        },
+        controller:search ,
+        style: TextStyle(color: Colors.white),
+        decoration: InputDecoration(labelText: 'search',labelStyle:
+        TextStyle(
+          fontSize: 20,
+        ),
+          border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(15)
+          ),
+          hintText: 'Enter a search term',
+        ),
+      ),
+    ),
       backgroundColor: Colors.black,
       body: DefaultTabController(
         length: 2,
@@ -66,7 +84,7 @@ class _Screen1State extends State<Screen1> {
                   child: Center(child: Text('error')),
                   onRefresh: () async {
                     return BlocProvider.of<InstaBloc>(context)
-                        .add(fetchInstaEvent());
+                        .add(fetchInstaEvent(id: search.text.toString()));
                   });
             }
             if (state is Instablocloaded) {
@@ -154,7 +172,7 @@ class _Screen1State extends State<Screen1> {
                                 ],
                               ),
                               GestureDetector(onTap: (){
-                                Navigator.of(context).push(MaterialPageRoute(builder:(_)=>Screen2()));
+                                Navigator.of(context).push(MaterialPageRoute(builder:(_)=>Screen2(name: insta.data!.username!.toString(),)));
                               },
                                 child: Column(
                                   children: [
@@ -363,7 +381,7 @@ class _Screen1State extends State<Screen1> {
                                       onRefresh: () async {
                                         return BlocProvider.of<HighlightsBloc>(
                                                 context)
-                                            .add(fetchHighlightsEvent());
+                                            .add(fetchHighlightsEvent(id: search.text.toString()));
                                       });
                                 }
                                 if (state is Highlightsblocloaded) {
@@ -482,7 +500,7 @@ class _Screen1State extends State<Screen1> {
                                 )),
                                 onRefresh: () async {
                                   return BlocProvider.of<PostBloc>(context)
-                                      .add(fetchPostEvent());
+                                      .add(fetchPostEvent(id: search.text.toString()));
                                 });
                           }
                           if (state is Postblocloaded) {
@@ -524,7 +542,7 @@ class _Screen1State extends State<Screen1> {
                                     )),
                                 onRefresh: () async {
                                   return BlocProvider.of<TagBloc>(context)
-                                      .add(fetchTagEvent());
+                                      .add(fetchTagEvent(id: search.text.toString()));
                                 });
                           }
                           if (state is Tagblocloaded) {

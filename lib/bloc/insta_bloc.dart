@@ -11,11 +11,11 @@ class InstaBloc extends Bloc<InstaEvent, InstaState> {
   late InstaModel instamodel;
   InstaApi instaApi=InstaApi();
   InstaBloc() : super(InstaInitial()) {
-    on<InstaEvent>((event, emit)  async{
+    on<fetchInstaEvent>((event, emit)  async{
       emit(Instablocloading());
       try{
 
-        instamodel = await instaApi.getInsta();
+        instamodel = await instaApi.getInsta(event.id);
         emit(Instablocloaded());
       } catch(e){
         print(e);

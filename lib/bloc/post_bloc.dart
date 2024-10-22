@@ -11,11 +11,11 @@ class PostBloc extends Bloc<PostEvent, PostState> {
   late Post posts;
   InstaApi instaApi=InstaApi();
   PostBloc() : super(PostInitial()) {
-    on<PostEvent>((event, emit) async {
+    on<fetchPostEvent>((event, emit) async {
       emit(Postblocloading());
       try{
 
-       posts= await instaApi.getPostmodel();
+       posts= await instaApi.getPostmodel(event.id);
         emit(Postblocloaded());
       } catch(e){
         print(e);

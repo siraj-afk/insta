@@ -11,11 +11,11 @@ class FollowingBloc extends Bloc<FollowingEvent, FollowingState> {
   late Following following;
   InstaApi instaApi=InstaApi();
   FollowingBloc() : super(FollowingInitial()) {
-    on<FollowingEvent>((event, emit) async {
+    on<fetchFollowingEvent>((event, emit) async {
       emit(Followingblocloading());
       try{
 
-        following = await instaApi.getFollowingmodel();
+        following = await instaApi.getFollowingmodel(event.id);
         emit(Followingblocloaded());
       } catch(e){
         print(e);

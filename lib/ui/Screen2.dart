@@ -8,7 +8,8 @@ import 'package:insta/repositery/model/Followingmodel.dart';
 import '../bloc/followers_bloc.dart';
 
 class Screen2 extends StatefulWidget {
-  const Screen2({super.key});
+  final String name;
+  const Screen2({super.key, required this.name});
 
   @override
   State<Screen2> createState() => _Screen2State();
@@ -34,8 +35,8 @@ class _Screen2State extends State<Screen2> {
 
   @override
   void initState() {
-    BlocProvider.of<FollowersBloc>(context).add(fetchFollowersEvent());
-    BlocProvider.of<FollowingBloc>(context).add(fetchFollowingEvent());
+    BlocProvider.of<FollowersBloc>(context).add(fetchFollowersEvent(id: widget.name));
+    BlocProvider.of<FollowingBloc>(context).add(fetchFollowingEvent(id: widget.name));
     super.initState();
   }
 
@@ -62,7 +63,7 @@ class _Screen2State extends State<Screen2> {
                         width: 30.w,
                       ),
                       Text(
-                        'Mr beast',
+                        widget.name.toString(),
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 20.64,
@@ -128,7 +129,7 @@ class _Screen2State extends State<Screen2> {
                                 )),
                                 onRefresh: () async {
                                   return BlocProvider.of<FollowersBloc>(context)
-                                      .add(fetchFollowersEvent());
+                                      .add(fetchFollowersEvent(id: widget.name));
                                 });
                           }
                           if (state is Followersblocloaded) {
@@ -137,70 +138,57 @@ class _Screen2State extends State<Screen2> {
                             return ListView.separated(
                               itemCount: followers.data!.items!.length,
                               itemBuilder: (BuildContext context, int index) {
-                                return Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    ClipOval(
-                                        child: Image.network(
-                                      followers.data!.items![index].profilePicUrl.toString(),
-                                      width: 60.w,
-                                      height: 60.h,
-                                      fit: BoxFit.cover,
-                                    )),
-                                    // SizedBox(
-                                    //   width: 30.w,
-                                    // ),
-                                    Center(
-                                      child: Column(crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            followers.data!.items![index].fullName.toString(),
-                                            style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 12,
-                                              fontFamily: 'Inter',
-                                              fontWeight: FontWeight.w500,
-                                              height: 0,
-                                            ),
-                                          ),
-                                          Text(followers.data!.items![index].username.toString(),
+                                return ListTile(
+                                  leading:  ClipOval(
+                                            child: Image.network(
+                                          followers.data!.items![index].profilePicUrl.toString(),
+                                          width: 60.w,
+                                          height: 60.h,
+                                          fit: BoxFit.cover,
+                                        )),
+                                  title:  Text(
+                                    followers.data!.items![index].fullName.toString(),
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 12,
+                                      fontFamily: 'Inter',
+                                      fontWeight: FontWeight.w500,
+                                      height: 0,
+                                    ),
+                                  ),
+                                  subtitle:    Text(followers.data!.items![index].username.toString(),
                                               style: TextStyle(
                                                 color: Colors.white,
                                                 fontSize: 10,
                                                 fontFamily: 'Inter',
                                                 fontWeight: FontWeight.w400,
                                                 height: 0,
-                                              ))
-                                        ],
+                                              ),),
+                                  trailing:  Container(
+                                    width: 112.37,
+                                    height: 33.25,
+                                    decoration: ShapeDecoration(
+                                      color: Color(0xFF4192EF),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                        BorderRadius.circular(5.73),
                                       ),
                                     ),
-                                    // SizedBox(
-                                    //   width: 120.w,
-                                    // ),
-                                    Container(
-                                      width: 112.37,
-                                      height: 33.25,
-                                      decoration: ShapeDecoration(
-                                        color: Color(0xFF4192EF),
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(5.73),
+                                    child: Center(
+                                      child: Text(
+                                        'Follow',
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 16.05,
+                                          fontFamily: 'Inter',
+                                          fontWeight: FontWeight.w500,
+                                          height: 0,
                                         ),
                                       ),
-                                      child: Center(
-                                        child: Text(
-                                          'Follow',
-                                          style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 16.05,
-                                            fontFamily: 'Inter',
-                                            fontWeight: FontWeight.w500,
-                                            height: 0,
-                                          ),
-                                        ),
-                                      ),
-                                    )
-                                  ],
+                                    ),
+                                  ),
                                 );
+
                               },
                               separatorBuilder:
                                   (BuildContext context, int index) {
@@ -230,7 +218,7 @@ class _Screen2State extends State<Screen2> {
                                         )),
                                     onRefresh: () async {
                                       return BlocProvider.of<FollowingBloc>(context)
-                                          .add(fetchFollowingEvent());
+                                          .add(fetchFollowingEvent(id: widget.name));
                                     });
                               }
                               if (state is Followingblocloaded) {

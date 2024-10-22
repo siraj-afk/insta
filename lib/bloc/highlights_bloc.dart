@@ -10,11 +10,11 @@ class HighlightsBloc extends Bloc<HighlightsEvent, HighlightsState> {
   late Highlights highlights;
   InstaApi instaApi=InstaApi();
   HighlightsBloc() : super(HighlightsInitial()) {
-    on<HighlightsEvent>((event, emit) async {
+    on<fetchHighlightsEvent>((event, emit) async {
       emit(Highlightsblocloading());
       try{
 
-        highlights = await instaApi.getHighlights();
+        highlights = await instaApi.getHighlights(event.id);
         emit(Highlightsblocloaded());
       } catch(e){
         print(e);
