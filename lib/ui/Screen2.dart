@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:insta/bloc/following_bloc.dart';
 import 'package:insta/repositery/model/Followers.dart';
+import 'package:insta/repositery/model/Followingmodel.dart';
 
 import '../bloc/followers_bloc.dart';
 
@@ -14,6 +16,7 @@ class Screen2 extends StatefulWidget {
 
 class _Screen2State extends State<Screen2> {
   late Followers followers;
+  late Following following;
 
   String k_m_b_generator(num) {
     if (num > 999 && num < 99999) {
@@ -32,6 +35,7 @@ class _Screen2State extends State<Screen2> {
   @override
   void initState() {
     BlocProvider.of<FollowersBloc>(context).add(fetchFollowersEvent());
+    BlocProvider.of<FollowingBloc>(context).add(fetchFollowingEvent());
     super.initState();
   }
 
@@ -133,7 +137,7 @@ class _Screen2State extends State<Screen2> {
                             return ListView.separated(
                               itemCount: followers.data!.items!.length,
                               itemBuilder: (BuildContext context, int index) {
-                                return Row(
+                                return Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
                                     ClipOval(
                                         child: Image.network(
@@ -142,34 +146,36 @@ class _Screen2State extends State<Screen2> {
                                       height: 60.h,
                                       fit: BoxFit.cover,
                                     )),
-                                    SizedBox(
-                                      width: 30.w,
-                                    ),
-                                    Column(
-                                      children: [
-                                        Text(
-                                          followers.data!.items![index].fullName.toString(),
-                                          style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 20.64,
-                                            fontFamily: 'Inter',
-                                            fontWeight: FontWeight.w500,
-                                            height: 0,
-                                          ),
-                                        ),
-                                        Text(followers.data!.items![index].username.toString(),
+                                    // SizedBox(
+                                    //   width: 30.w,
+                                    // ),
+                                    Center(
+                                      child: Column(crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            followers.data!.items![index].fullName.toString(),
                                             style: TextStyle(
                                               color: Colors.white,
-                                              fontSize: 17.20,
+                                              fontSize: 12,
                                               fontFamily: 'Inter',
-                                              fontWeight: FontWeight.w400,
+                                              fontWeight: FontWeight.w500,
                                               height: 0,
-                                            ))
-                                      ],
+                                            ),
+                                          ),
+                                          Text(followers.data!.items![index].username.toString(),
+                                              style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 10,
+                                                fontFamily: 'Inter',
+                                                fontWeight: FontWeight.w400,
+                                                height: 0,
+                                              ))
+                                        ],
+                                      ),
                                     ),
-                                    SizedBox(
-                                      width: 120.w,
-                                    ),
+                                    // SizedBox(
+                                    //   width: 120.w,
+                                    // ),
                                     Container(
                                       width: 112.37,
                                       height: 33.25,
@@ -210,77 +216,88 @@ class _Screen2State extends State<Screen2> {
                       ),
                       Padding(
                         padding: EdgeInsets.only(left: 15.0.w, top: 20.h),
-                        child: ListView.separated(
-                          itemCount: 5,
-                          itemBuilder: (BuildContext context, int index) {
-                            return Row(
-                              children: [
-                                ClipOval(
-                                    child: Image.asset(
-                                  'assets/img_1.png',
-                                  width: 60.w,
-                                  height: 60.h,
-                                  fit: BoxFit.cover,
-                                )),
-                                SizedBox(
-                                  width: 30.w,
-                                ),
-                                Column(
-                                  children: [
-                                    Text(
-                                      'don',
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 20.64,
-                                        fontFamily: 'Inter',
-                                        fontWeight: FontWeight.w500,
-                                        height: 0,
+                        child: BlocBuilder<FollowingBloc, FollowingState>(
+                            builder: (context, state) {
+                              if (state is Followingblocloading) {
+                                return Center(child: CircularProgressIndicator());
+                              }
+                              if (state is Followingblocerror) {
+                                return RefreshIndicator(
+                                    child: Center(
+                                        child: Text(
+                                          'error',
+                                          style: TextStyle(color: Colors.red),
+                                        )),
+                                    onRefresh: () async {
+                                      return BlocProvider.of<FollowingBloc>(context)
+                                          .add(fetchFollowingEvent());
+                                    });
+                              }
+                              if (state is Followingblocloaded) {
+                                following = BlocProvider.of<FollowingBloc>(context)
+                                    .following;
+                                return ListView.separated(
+                                  itemCount: following.data!.items!.length,
+                                  itemBuilder: (BuildContext context, int index) {
+                                    return ListTile(leading:     ClipOval(
+                                                child: Image.network(
+                                                  following.data!.items![index].profilePicUrl.toString(),
+                                                  width: 60.w,
+                                                  height: 60.h,
+                                                  fit: BoxFit.cover,
+                                                )),title: Text(
+                                                following.data!.items![index].fullName.toString(),
+                                                style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 12,
+                                                  fontFamily: 'Inter',
+                                                  fontWeight: FontWeight.w500,
+                                                  height: 0,
+                                                ),
+                                              ), subtitle: Text(following.data!.items![index].username.toString(),
+                                                  style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 10,
+                                                    fontFamily: 'Inter',
+                                                    fontWeight: FontWeight.w400,
+                                                    height: 0,
+                                                  )),trailing:  Container(
+                                      width: 112.37,
+                                      height: 33.25,
+                                      decoration: ShapeDecoration(
+                                        color: Color(0xFF4192EF),
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                          BorderRadius.circular(5.73),
+                                        ),
                                       ),
-                                    ),
-                                    Text('impo',
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 17.20,
-                                          fontFamily: 'Inter',
-                                          fontWeight: FontWeight.w400,
-                                          height: 0,
-                                        ))
-                                  ],
-                                ),
-                                SizedBox(
-                                  width: 120.w,
-                                ),
-                                Container(
-                                  width: 112.37,
-                                  height: 33.25,
-                                  decoration: ShapeDecoration(
-                                    color: Color(0xFF4192EF),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(5.73),
-                                    ),
-                                  ),
-                                  child: Center(
-                                    child: Text(
-                                      'Follow',
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 16.05,
-                                        fontFamily: 'Inter',
-                                        fontWeight: FontWeight.w500,
-                                        height: 0,
+                                      child: Center(
+                                        child: Text(
+                                          'Follow',
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 16.05,
+                                            fontFamily: 'Inter',
+                                            fontWeight: FontWeight.w500,
+                                            height: 0,
+                                          ),
+                                        ),
                                       ),
-                                    ),
-                                  ),
-                                )
-                              ],
-                            );
-                          },
-                          separatorBuilder: (BuildContext context, int index) {
-                            return SizedBox(
-                              height: 10.h,
-                            );
-                          },
-                        ),
+                                    ),);
+
+
+                                  },
+                                  separatorBuilder:
+                                      (BuildContext context, int index) {
+                                    return SizedBox(
+                                      height: 10.h,
+                                    );
+                                  },
+                                );
+                              } else {
+                                return SizedBox();
+                              }
+                            }),
                       ),
                     ],
                   ),

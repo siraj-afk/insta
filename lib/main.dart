@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:insta/bloc/following_bloc.dart';
 import 'package:insta/bloc/highlights_bloc.dart';
 import 'package:insta/repositery/model/instamodel.dart';
 import 'package:insta/repositery/model/postmodel.dart';
@@ -35,6 +36,7 @@ class MyApp extends StatelessWidget {
                 BlocProvider(create: (context) => PostBloc(),),
                 BlocProvider(create: (context) => TagBloc(),),
                 BlocProvider(create: (context) => FollowersBloc(),),
+                BlocProvider(create: (context) => FollowingBloc(),),
               ],
               child: MaterialApp(
                 debugShowCheckedModeBanner: false,
