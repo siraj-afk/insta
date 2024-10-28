@@ -126,12 +126,11 @@ class _Screen1State extends State<Screen3> {
                                             width: 1.15, color: Color(0xFF212121)),
                                       ),
                                     ),
-                                    child: Center(
-                                        child: Icon(
-                                          Icons.flag_circle_rounded,
-                                          size: 50.sp,
-                                          color: Colors.white,
-                                        )),
+                                    child: CircleAvatar(
+                                      backgroundImage:
+                                      NetworkImage(
+                                          insta.data!.hdProfilePicUrlInfo!.url.toString()),
+                                    )
                                   ),
                                   Column(
                                     children: [
