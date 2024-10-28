@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -56,9 +57,13 @@ class _Screen2State extends State<Screen2> {
                   padding: EdgeInsets.only(left: 15.0.sp),
                   child: Row(
                     children: [
-                      Icon(
-                        Icons.arrow_back,
-                        color: Colors.white,
+                      GestureDetector(onTap: (){
+                       Navigator.pop(context);
+          },
+                        child: Icon(
+                          Icons.arrow_back,
+                          color: Colors.white,
+                        ),
                       ),
                       SizedBox(
                         width: 30.w,
