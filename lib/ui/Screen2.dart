@@ -6,6 +6,7 @@ import 'package:insta/repositery/model/Followers.dart';
 import 'package:insta/repositery/model/Followingmodel.dart';
 
 import '../bloc/followers_bloc.dart';
+import 'Screen3.dart';
 
 class Screen2 extends StatefulWidget {
   final String name;
@@ -146,14 +147,18 @@ class _Screen2State extends State<Screen2> {
                                           height: 60.h,
                                           fit: BoxFit.cover,
                                         )),
-                                  title:  Text(
-                                    followers.data!.items![index].fullName.toString(),
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 12,
-                                      fontFamily: 'Inter',
-                                      fontWeight: FontWeight.w500,
-                                      height: 0,
+                                  title:  GestureDetector(onTap: (){
+                                    Navigator.of(context).push(MaterialPageRoute(builder: (_)=>Screen3(username: followers.data!.items![index].username.toString(),)));
+                                  },
+                                    child: Text(
+                                      followers.data!.items![index].fullName.toString(),
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 12,
+                                        fontFamily: 'Inter',
+                                        fontWeight: FontWeight.w500,
+                                        height: 0,
+                                      ),
                                     ),
                                   ),
                                   subtitle:    Text(followers.data!.items![index].username.toString(),
@@ -233,16 +238,21 @@ class _Screen2State extends State<Screen2> {
                                                   width: 60.w,
                                                   height: 60.h,
                                                   fit: BoxFit.cover,
-                                                )),title: Text(
-                                                following.data!.items![index].fullName.toString(),
-                                                style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 12,
-                                                  fontFamily: 'Inter',
-                                                  fontWeight: FontWeight.w500,
-                                                  height: 0,
-                                                ),
-                                              ), subtitle: Text(following.data!.items![index].username.toString(),
+                                                )),title: GestureDetector(onTap: (){
+                                                  Navigator.of(context).push(MaterialPageRoute(builder: (_)=>Screen3(username: following.data!.items![index].username.toString(),)));
+
+                                    },
+                                                  child: Text(
+                                                  following.data!.items![index].fullName.toString(),
+                                                  style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 12,
+                                                    fontFamily: 'Inter',
+                                                    fontWeight: FontWeight.w500,
+                                                    height: 0,
+                                                  ),
+                                                                                                ),
+                                                ), subtitle: Text(following.data!.items![index].username.toString(),
                                                   style: TextStyle(
                                                     color: Colors.white,
                                                     fontSize: 10,

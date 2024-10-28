@@ -51,23 +51,26 @@ TextEditingController search= TextEditingController();
   Widget build(BuildContext context) {
     return Scaffold(appBar:
     AppBar(backgroundColor: Colors.black,
-      title: TextField(
-        onSubmitted: (value) {
-          BlocProvider.of<InstaBloc>(context).add(fetchInstaEvent(id: search.text.toString()));
-          BlocProvider.of<HighlightsBloc>(context).add(fetchHighlightsEvent(id: search.text.toString()));
-          BlocProvider.of<PostBloc>(context).add(fetchPostEvent(id: search.text.toString()));
-          BlocProvider.of<TagBloc>(context).add(fetchTagEvent(id: search.text.toString()));
-        },
-        controller:search ,
-        style: TextStyle(color: Colors.white),
-        decoration: InputDecoration(labelText: 'search',labelStyle:
-        TextStyle(
-          fontSize: 20,
-        ),
-          border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(15)
+      title: Padding(
+        padding: EdgeInsets.only(top: 20.0),
+        child: TextField(
+          onSubmitted: (value) {
+            BlocProvider.of<InstaBloc>(context).add(fetchInstaEvent(id: search.text.toString()));
+            BlocProvider.of<HighlightsBloc>(context).add(fetchHighlightsEvent(id: search.text.toString()));
+            BlocProvider.of<PostBloc>(context).add(fetchPostEvent(id: search.text.toString()));
+            BlocProvider.of<TagBloc>(context).add(fetchTagEvent(id: search.text.toString()));
+          },
+          controller:search ,
+          style: TextStyle(color: Colors.white),
+          decoration: InputDecoration(labelText: 'search',labelStyle:
+          TextStyle(
+            fontSize: 20,
           ),
-          hintText: 'Enter a search term',
+            border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(15)
+            ),
+            hintText: 'Enter a search term',
+          ),
         ),
       ),
     ),
@@ -137,17 +140,15 @@ TextEditingController search= TextEditingController();
                                 height: 98.h,
                                 decoration: ShapeDecoration(
                                   color: Color(0xFF253D84),
-                                  shape: OvalBorder(
-                                    side: BorderSide(
-                                        width: 1.15, color: Color(0xFF212121)),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(300)
                                   ),
                                 ),
-                                child: Center(
-                                    child: Icon(
-                                  Icons.flag_circle_rounded,
-                                  size: 50.sp,
-                                  color: Colors.white,
-                                )),
+                                child: CircleAvatar(
+                                  backgroundImage:
+                                  NetworkImage(
+                                      insta.data!.hdProfilePicUrlInfo!.url.toString()),
+                                )
                               ),
                               Column(
                                 children: [
